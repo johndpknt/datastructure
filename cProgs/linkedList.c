@@ -14,10 +14,18 @@ struct node
 //add th the begining
 struct node * add_begining(struct node * startNode,int data){
 
-    struct node * newNode = (struct node *)malloc(sizeof(struct node));
-    newNode->data =  data;
-    newNode->next = NULL;
-    return newNode;
+    if(startNode == NULL){
+        struct node * newNode = (struct node *)malloc(sizeof(struct node));
+        newNode->data =  data;
+        newNode->next = NULL;
+        return newNode;
+    }
+    else{
+        struct node * newNode = (struct node *)malloc(sizeof(struct node));
+        newNode->data = data;
+        newNode->next = startNode;
+        return newNode;
+    }
 
 }
 
@@ -95,6 +103,56 @@ struct node * generate_random_linked_list(struct node * startNode){
     return startNode;
 }
 
+int count_nodes(struct node * startNode){
+
+    int count = 0;
+
+    while(startNode != NULL){
+        count++;
+        startNode = startNode->next;
+    }
+    printf("The number of elements in the linked List : %d\n",count );
+    return count;
+}
+
+
+struct  node * delete_at_beg(struct node * startNode){
+
+    struct node * head = startNode->next;
+    free(startNode);
+    return head;
+    
+
+}
+struct node * delete_at_end(struct node * startNode){
+
+    struct node * head = startNode;
+    struct node * prev = head;
+    while(head->next != NULL){
+
+        prev = head;
+        head = head->next;
+
+
+    }
+    prev->next = NULL;
+    return startNode;
+
+
+}
+
+struct node * delete_at_pos(struct node * startNode,int pos){
+
+    int i = 0;
+    struct node * prev = startNode;
+    while(startNode->next != NULL && i<pos){
+
+        prev = startNode;
+        startNode = startNode->next;
+        i++;
+    }
+    prev->next = startNode->next;
+}
 
 
 int main(){
@@ -105,9 +163,14 @@ int main(){
         int ch;
         printf("\nEnter you choice\n***********************************\n");
         printf("\
-              1.Create a Random Linked List\n \
+             1.Create a Random Linked List\n \
             2.Display the linked List\n \
-            3.insert to a position \
+            3.insert to a position \n \
+            4.insert at front \n\
+            5.count the number of nodes \n\
+            6.Delete a node at begining \n\
+            7.Delete the last node \n\
+            8.Delete the node at a position \n\
             \n10.to quit\n");
         printf("\nEnter you Choice : ");
         scanf("%d",&ch);
@@ -121,6 +184,21 @@ int main(){
                 break;
             case 3:
                 add_at_pos(startNode,400,4);
+                break;
+            case 4:
+                startNode =  add_begining(startNode,100);
+                break;
+            case 5:
+                count_nodes(startNode);
+                break; 
+            case 6:
+                startNode =  delete_at_beg(startNode);
+                break;
+            case 7:
+                delete_at_end(startNode);
+                break;
+            case 8:
+                delete_at_pos(startNode,2);
                 break;
             case 10:
                 exit(1);
